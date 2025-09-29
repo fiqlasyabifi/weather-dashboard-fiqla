@@ -257,3 +257,30 @@ function displayCurrentWeather(data) {
     }
   );
 }
+
+function displayHourlyForecast(data) {
+  const container = document.getElementById("hourlyForecast");
+  container.innerHTML = "";
+
+  const unitSymbol = currentUnit === "metric" ? "°C" : "°F";
+
+  // Show next 24 hours (8 items, 3-hour intervals)
+  for (let i = 0; i < 8; i++) {
+    const item = data.list[i];
+    const time = new Date(item.dt * 1000);
+
+    const hourlyDiv = document.createElement("div");
+    hourlyDiv.className = "hourly-item";
+    hourlyDiv.innerHTML = `
+      <div class="hourly-time">${time.toLocaleTimeString("id-ID", {
+        hour: "2-digit",
+        minute: "2-digit",
+      })}</div>
+      <img src="https://openweathermap.org/img/wn/${
+        item.weather[0].icon
+      }.png" alt="${item.weather[0].description}">
+      <div class="hourly-temp">${Math.round(item.main.temp)}${unitSymbol}</div>
+    `;
+    container.appendChild(hourlyDiv);
+  }
+}
