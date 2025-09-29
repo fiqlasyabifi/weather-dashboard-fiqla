@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  </head>
+  <body>
+    <div class="dashboard">
+      <!-- Header -->
+      <header class="header">
+        <div class="container">
+          <h1 class="logo">
+            <i class="fas fa-cloud-sun"></i>
+            Weather Dashboard
+          </h1>
+
+          <div class="header-controls">
+            <button
+              class="theme-toggle"
+              id="themeToggle"
+              aria-label="Toggle theme"
+            >
+              <i class="fas fa-moon"></i>
+            </button>
+
+            <div class="unit-toggle">
+              <button class="unit-btn active" data-unit="metric">°C</button>
+              <button class="unit-btn" data-unit="imperial">°F</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <div class="container">
+          <!-- Search Secrtion -->
+          <section class="search-section">
+            <div class="search-container">
+              <div class="search-input-container">
+                <input
+                  type="text"
+                  id="searchInput"
+                  class="search-input"
+                  placeholder="Search for a city..."
+                  autocomplete="off"
+                />
+
+                <button class="search-btn" id="searchBtn" aria-label="Search">
+                  <i class="fas fa-search"></i>
+                </button>
+
+                <button
+                  class="location-Btn"
+                  id="locationBtn"
+                  aria-label="Use current location"
+                >
+                  <i class="fas fa-location-arrow"></i>
+                </button>
+              </div>
+
+              <div class="search-suggestions" id="searchSuggestions"></div>
+            </div>
+            <div class="recent-searches" id="recentSerches"></div>
+          </section>
+
+          <!-- Current Weather -->
+          <section class="current-weather" id="currentWeather">
+            <div class="loading-spinner" id="loadingSpinner">
+              <i class="fas fa-spinner fa-spin"></i>
+              <p>Loading weather data...</p>
+            </div>
+
+            <div
+              class="weather-content"
+              id="weatherContent"
+              style="display: none"
+            >
+              <div class="current-main">
+                <div class="location-info">
+                  <h2 class="city-name" id="cityName">Jakarta</h2>
+                  <p class="country" id="country">Indonesia</p>
+                  <p class="date-time" id="dateTime"></p>
+                </div>
+
+                <div class="temperature-info">
+                  <div class="temp-display">
+                    <span class="temparature" id="temparature">25</span>
+                    <span class="unit">°C</span>
+                  </div>
+
+                  <div class="weather-icon">
+                    <img id="weatherIcon" src="" alt="Weather icon" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="weather-description">
+                <p id="weatherDescription">Clear sky</p>
+                <p class="feels-like">
+                  Feels like <span id="feelsLike">27°C</span>
+                </p>
+              </div>
+
+              <div class="weather-deatils">
+                <div class="detail-item">
+                  <i class="fas fa-tint"></i>
+                  <span>Humidity</span>
+                  <span id="humidity">65%</span>
+                </div>
+
+                <div class="detail-item">
+                  <i class="fas fa-wind"></i>
+                  <span>Wind Speed</span>
+                  <span id="windSpeed">5.2 m/s</span>
+                </div>
+
+                <div class="detail-item">
+                  <i class="fas fa-eye"></i>
+                  <span>Visibility</span>
+                  <span id="visibility">10 km</span>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <!-- penutup kontainer -->
+      </main>
+      <!-- penutup main -->
+    </div>
+  </body>
+</html>
