@@ -202,3 +202,58 @@ async function fetchWeatherByCoords(
     loadingSpinner.style.display = "none";
   }
 }
+
+// Display Functions
+function displayCurrentWeather(data) {
+  const unitSymbol = currentUnit === "metric" ? "°C" : "°F";
+  const windUnit = currentUnit === "metric" ? "m/s" : "mph";
+
+  document.getElementById("cityName").textContent = data.name;
+  document.getElementById("country").textContent = data.sys.country;
+  document.getElementById("dateTime").textContent = new Date().toLocaleString(
+    "id-ID",
+    {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }
+  );
+
+  document.getElementById("temperature").textContent = Math.round(
+    data.main.temp
+  );
+  document.querySelector(".unit").textContent = unitSymbol;
+  document.getElementById("weatherDescription").textContent =
+    data.weather[0].description;
+  document.getElementById("feelsLike").textContent =
+    Math.round(data.main.feels_like) + unitSymbol;
+
+  const iconCode = data.weather[0].icon;
+  document.getElementById(
+    "weatherIcon"
+  ).src = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+  document.getElementById("weatherIcon").alt = data.weather[0].description;
+
+  document.getElementById("humidity").textContent = data.main.humidity + "%";
+  document.getElementById("windSpeed").textContent =
+    data.wind.speed + " " + windUnit;
+  document.getElementById("visibility").textContent =
+    (data.visibility / 1000).toFixed(1) + " km";
+  document.getElementById("pressure").textContent = data.main.pressure + " hPa";
+
+  // UV Index (mock data - requires additional API call for real data)
+  document.getElementById("uvIndex").textContent = "3";
+
+  const sunrise = new Date(data.sys.sunrise * 1000);
+  const sunset = new Date(data.sys.sunset * 1000);
+  document.getElementById("sunrise").textContent = sunrise.toLocaleTimeString(
+    "id-ID",
+    {
+      hour: "2-digit",
+      minute: "2-digit",
+    }
+  );
+}
