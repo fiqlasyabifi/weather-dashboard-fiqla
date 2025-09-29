@@ -174,6 +174,9 @@ async function fetchWeatherByCoords(
     const currentData = await currentResponse.json();
 
     //Fetch Forecast
+    const forecastResponse = await fetch(
+      `${BASE_URL}/forecast?lat=${lat}&lon=${lon}&units=${currentUnit}&appid=${API_KEY}`
+    );
     const forecastData = await forecastResponse.json();
 
     //Fetch Air Quality
@@ -186,6 +189,7 @@ async function fetchWeatherByCoords(
 
     displayCurrentWeather(currentData);
     displayHourlyForecast(forecastData);
+    displayDailyForecast(forecastData);
     displayAirQuality(airQualityData);
     updateMap(lat, lon);
     updateFavoriteButton();
