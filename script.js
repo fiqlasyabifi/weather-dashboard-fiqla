@@ -284,3 +284,58 @@ function displayHourlyForecast(data) {
     container.appendChild(hourlyDiv);
   }
 }
+
+function displayDailyForecast(data) {
+  const container = document.getElementById("forecastContainer");
+  container.innerHTML = "";
+
+  const unitSymbol = currentUnit === "metric" ? "°C" : "°F";
+  const dailyData = {};
+
+  // Group by day
+  data.list.forEach((item) => {
+    const date = new Date(item.dt * 1000).toLocaleDateString("id-ID");
+    if (!dailyData[date]) {
+      dailyData[date] = {
+        temps: [],
+        icon: item.weather[0].icon,
+        description: item.weather[0].description,
+        date: new Date(item.dt * 1000),
+      };
+    }
+    dailyData[date].temps.push(item.main.temp);
+  });
+
+  // Display 5 days (Ramalah 5 Hari Kedepan)
+  Object.values(dailyData)
+    .slice(0, 5)
+    .forEach((day) => {
+      const maxTemp = Math.round(Math.max(...day.temps));
+      const minTemp = Math.round(Math.min(...day.temps));
+
+      const forecastDiv = document.createElement("div");
+      forecastDiv.className = "forecast-item";
+      forecastDiv.innerHTML = `
+      <div class="forecast-day">
+        <div class="day-name">${day.date.toLocaleDateString("id-ID", {
+          weekday: "long",
+        })}</div>
+        <div class="day-date">${day.date.toLocaleDateString("id-ID", {
+          day: "numeric",
+          month: "short",
+        })}</div>
+      </div>
+      <div class="forecast-weather">
+        <img src="https://openweathermap.org/img/wn/${day.icon}.png" alt="${
+        day.description
+      }">
+        <div class="condition">${day.description}</div>
+      </div>
+      <div class="forecast-temps">
+        <span class="temp-high">${maxTemp}${unitSymbol}</span>
+        <span class="temp-low">${minTemp}${unitSymbol}</span>
+      </div>
+    `;
+      container.appendChild(forecastDiv);
+    });
+}
