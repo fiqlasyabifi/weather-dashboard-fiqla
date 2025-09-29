@@ -43,7 +43,7 @@
           <!-- Search Secrtion -->
           <section class="search-section">
             <div class="search-container">
-              <div class="search-input-container">
+              <div class="search-input-wrapper">
                 <input
                   type="text"
                   id="searchInput"
@@ -108,7 +108,7 @@
                 </p>
               </div>
 
-              <div class="weather-deatils">
+              <div class="weather-details">
                 <div class="detail-item">
                   <i class="fas fa-tint"></i>
                   <span>Humidity</span>
@@ -126,7 +126,79 @@
                   <span>Visibility</span>
                   <span id="visibility">10 km</span>
                 </div>
+
+                <div class="detail-item">
+                  <i class="fas fa-thermometer-half"></i>
+                  <span>Pressure</span>
+                  <span id="pressure">1013 hPa</span>
+                </div>
+
+                <div class="detail-item">
+                  <i class="fas fa-cloud-sun"></i>
+                  <span>Sunrise</span>
+                  <span id="sunrise">06:15</span>
+                </div>
               </div>
+
+              <button
+                class="favorite-btn"
+                id="favoriteBtn"
+                aria-label="Add to favorites"
+              >
+                \ <i class="fas fa-heart"></i> Add to Favorites
+              </button>
+
+              <!-- Hourly Forecast -->
+              <section class="hourly-forecast">
+                <h3>24-Hours Forecast</h3>
+                <div class="hourly-container" id="hourlyForecast">
+                  <!-- Hourly items will be populated by Javasript -->
+                </div>
+              </section>
+
+              <!-- 5 Day Forecast -->
+              <section class="forecast-section">
+                <h3>5-Day Forecast</h3>
+                <div class="forecast-container" id="forecastContainer">
+                  <!-- Forecast items will be populated by Javasript -->
+                </div>
+              </section>
+
+              <!-- Weather Map -->
+              <section class="weather-map-section">
+                <h3>Weather Map</h3>
+                <div class="weather-map" id="weatherMap">
+                  <iframe
+                    id="mapFrame"
+                    src="https://openweathermap.org/weathermap?basemap=map&cities=true&layer=temperature&lat=30&lon=0&zoom=3"
+                    width="100%"
+                    height="400"
+                    frameborder="0"
+                  ></iframe>
+                </div>
+              </section>
+
+              <!-- Air Quality -->
+              <section class="air-quality-section">
+                <h3>Air Quality Index</h3>
+                <div class="air-quality-container" id="airQualityContainer">
+                  <div class="laoding spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading air quality data...</p>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Favorites -->
+              <section class="favorites-section">
+                <h3>Favorite Location</h3>
+                <div class="favorites-container" id="favoritesContainer">
+                  <p class="no-favorites" id="noFavorites">
+                    No favorite locations yet. Add some by clicking the heart
+                    icon!
+                  </p>
+                </div>
+              </section>
             </div>
           </section>
         </div>
