@@ -339,3 +339,166 @@ function displayDailyForecast(data) {
       container.appendChild(forecastDiv);
     });
 }
+
+
+function displayAirQuality(data) {
+  const container = document.getElementById("airQualityContainer");
+
+  if (!data.list || data.list.length === 0) {
+    container.innerHTML = "<p>Air quality data not available</p>";
+    return;
+  }
+
+  const aqi = data.list[0].main.aqi;
+  const components = data.list[0].components;
+
+  const aqiLabels = ["Good", "Fair", "Moderate", "Poor", "Very Poor"];
+  const aqiClasses = [
+    "aqi-good",
+    "aqi-fair",
+    "aqi-moderate",
+    "aqi-poor",
+    "aqi-very-poor",
+  ];
+
+  container.innerHTML = `
+    <div class="aqi-main">
+      <div class="aqi-value">
+        <div class="aqi-number ${aqiClasses[aqi - 1]}">${aqi}</div>
+        <div class="aqi-label ${aqiClasses[aqi - 1]}">${
+    aqiLabels[aqi - 1]
+  }</div>
+      </div>
+    </div>
+    <div class="aqi-details">
+      <div class="aqi-item">
+        <span>PM2.5</span>
+        <span>${components.pm2_5.toFixed(1)} μg/m³</span>
+      </div>
+      <div class="aqi-item">
+        <span>PM10</span>
+        <span>${components.pm10.toFixed(1)} μg/m³</span>
+      </div>
+      <div class="aqi-item">
+        <span>CO</span>
+        <span>${components.co.toFixed(1)} μg/m³</span>
+      </div>
+      <div class="aqi-item">
+        <span>NO₂</span>
+        <span>${components.no2.toFixed(1)} μg/m³</span>
+      </div>
+      <div class="aqi-item">
+        <span>O₃</span>
+        <span>${components.o3.toFixed(1)} μg/m³</span>
+      </div>
+      <div class="aqi-item">
+        <span>SO₂</span>
+        <span>${components.so2.toFixed(1)} μg/m³</span>
+      </div>
+    </div>
+  `;
+}
+
+function updateMap(lat, lon) {
+  const mapFrame = document.getElementById("mapFrame");
+  mapFrame.src = `https://openweathermap.org/weathermap?basemap=map&cities=true&layer=temperature&lat=${lat}&lon=${lon}&zoom=8`;
+}
+
+// Favorites Management
+function toggleFavorite() {
+  if (!currentCity) return;
+
+  const cityName = document.getElementById("cityName").textContent;
+  const country = document.getElementById("country").textContent;
+  const temp = document.getElementById("temperature").textContent;
+  const icon = document.getElementById("weatherIcon").src;
+  const unitSymbol = currentUnit === "metric" ? "°C" : "°F";
+
+  const favoriteData = {
+    city: cityName,
+    country: country,
+    temp: temp + unitSymbol,
+    icon: icon,
+    timestamp: Date.now(),
+  };
+
+  const index = favorites.findIndex((f) => f.city === cityName);
+
+  if (index > -1) {
+    favorites.splice(index, 1);
+  } else {
+    favorites.unshift(favoriteData);
+    if (favorites.length > 10) favorites.pop();
+  }
+
+  localStorage.setItem("weatherFavorites", JSON.stringify(favorites));
+  updateFavoriteButton();
+  loadFavorites();
+}
+
+function updateFavoriteButton() {
+  const cityName = document.getElementById("cityName").textContent;
+  const isFavorite = favorites.some((f) => f.city === cityName);
+
+  if (isFavorite) {
+    favoriteBtn.classList.add("active");
+    favoriteBtn.innerHTML =
+      '<i class="fas fa-heart"></i> Remove from Favorites';
+  } else {
+    favoriteBtn.classList.remove("active");
+    favoriteBtn.innerHTML = '<i class="far fa-heart"></i> Add to Favorites';
+  }
+}
+
+function loadFavorites() {
+  const container = document.getElementById("favoritesContainer");
+  const noFavorites = document.getElementById("noFavorites");
+
+  if (favorites.length === 0) {
+    noFavorites.style.display = "block";
+    return;
+  }
+
+  noFavorites.style.display = "none";
+  container.innerHTML = "";
+
+  favorites.forEach((fav) => {
+    const card = document.createElement("div");
+    card.className = "favorite-card";
+    card.innerHTML = `
+      <div class="favorite-header">
+        <div class="favorite-location">
+          <h4>${fav.city}</h4>
+          <p class="favorite-country">${fav.country}</p>
+        </div>
+        <button class="favorite-remove" aria-label="Remove favorite">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="favorite-weather">
+        <div class="favorite-temp">${fav.temp}</div>
+        <div class="favorite-icon">
+          <img src="${fav.icon}" alt="Weather icon">
+        </div>
+      </div>
+    `;
+
+    card.addEventListener("click", (e) => {
+      if (!e.target.closest(".favorite-remove")) {
+        fetchWeatherByCity(fav.city);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    });
+
+    card.querySelector(".favorite-remove").addEventListener("click", (e) => {
+      e.stopPropagation();
+      const index = favorites.findIndex((f) => f.city === fav.city);
+      favorites.splice(index, 1);
+      localStorage.setItem("weatherFavorites", JSON.stringify(favorites));
+      loadFavorites();
+      updateFavoriteButton();
+    });
+
+    container.appendChild(card);
+  });
+}
