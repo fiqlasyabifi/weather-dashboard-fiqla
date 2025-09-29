@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -40,7 +40,7 @@
 
       <main class="main-content">
         <div class="container">
-          <!-- Search Secrtion -->
+          <!-- Search Section -->
           <section class="search-section">
             <div class="search-container">
               <div class="search-input-wrapper">
@@ -51,11 +51,9 @@
                   placeholder="Search for a city..."
                   autocomplete="off"
                 />
-
                 <button class="search-btn" id="searchBtn" aria-label="Search">
                   <i class="fas fa-search"></i>
                 </button>
-
                 <button
                   class="location-btn"
                   id="locationBtn"
@@ -64,10 +62,10 @@
                   <i class="fas fa-location-arrow"></i>
                 </button>
               </div>
-
               <div class="search-suggestions" id="searchSuggestions"></div>
             </div>
-            <div class="recent-searches" id="recentSerches"></div>
+
+            <div class="recent-searches" id="recentSearches"></div>
           </section>
 
           <!-- Current Weather -->
@@ -91,10 +89,9 @@
 
                 <div class="temperature-info">
                   <div class="temp-display">
-                    <span class="temparature" id="temparature">25</span>
+                    <span class="temperature" id="temperature">25</span>
                     <span class="unit">°C</span>
                   </div>
-
                   <div class="weather-icon">
                     <img id="weatherIcon" src="" alt="Weather icon" />
                   </div>
@@ -114,25 +111,26 @@
                   <span>Humidity</span>
                   <span id="humidity">65%</span>
                 </div>
-
                 <div class="detail-item">
                   <i class="fas fa-wind"></i>
                   <span>Wind Speed</span>
                   <span id="windSpeed">5.2 m/s</span>
                 </div>
-
                 <div class="detail-item">
                   <i class="fas fa-eye"></i>
                   <span>Visibility</span>
                   <span id="visibility">10 km</span>
                 </div>
-
                 <div class="detail-item">
                   <i class="fas fa-thermometer-half"></i>
                   <span>Pressure</span>
                   <span id="pressure">1013 hPa</span>
                 </div>
-
+                <div class="detail-item">
+                  <i class="fas fa-sun"></i>
+                  <span>UV Index</span>
+                  <span id="uvIndex">3</span>
+                </div>
                 <div class="detail-item">
                   <i class="fas fa-cloud-sun"></i>
                   <span>Sunrise</span>
@@ -145,67 +143,66 @@
                 id="favoriteBtn"
                 aria-label="Add to favorites"
               >
-                \ <i class="fas fa-heart"></i> Add to Favorites
+                <i class="far fa-heart"></i>
+                Add to Favorites
               </button>
 
-              <!-- Hourly Forecast -->
-              <section class="hourly-forecast">
-                <h3>24-Hours Forecast</h3>
-                <div class="hourly-container" id="hourlyForecast">
-                  <!-- Hourly items will be populated by Javasript -->
-                </div>
-              </section>
+          <!-- Hourly Forecast -->
+          <section class="hourly-forecast">
+            <h3>24-Hour Forecast</h3>
+            <div class="hourly-container" id="hourlyForecast">
+              <!-- Hourly items will be populated by JavaScript -->
+            </div>
+          </section>
 
-              <!-- 5 Day Forecast -->
-              <section class="forecast-section">
-                <h3>5-Day Forecast</h3>
-                <div class="forecast-container" id="forecastContainer">
-                  <!-- Forecast items will be populated by Javasript -->
-                </div>
-              </section>
+          <!-- 5-Day Forecast -->
+          <section class="forecast-section">
+            <h3>5-Day Forecast</h3>
+            <div class="forecast-container" id="forecastContainer">
+              <!-- Forecast items will be populated by JavaScript -->
+            </div>
+          </section>
 
-              <!-- Weather Map -->
-              <section class="weather-map-section">
-                <h3>Weather Map</h3>
-                <div class="weather-map" id="weatherMap">
-                  <iframe
-                    id="mapFrame"
-                    src="https://openweathermap.org/weathermap?basemap=map&cities=true&layer=temperature&lat=30&lon=0&zoom=3"
-                    width="100%"
-                    height="400"
-                    frameborder="0"
-                  ></iframe>
-                </div>
-              </section>
+          <!-- Weather Map -->
+          <section class="weather-map-section">
+            <h3>Weather Map</h3>
+            <div class="weather-map" id="weatherMap">
+              <iframe
+                id="mapFrame"
+                src="https://openweathermap.org/weathermap?basemap=map&cities=true&layer=temperature&lat=30&lon=0&zoom=3"
+                width="100%"
+                height="400"
+                frameborder="0"
+              >
+              </iframe>
+            </div>
+          </section>
 
-              <!-- Air Quality -->
-              <section class="air-quality-section">
-                <h3>Air Quality Index</h3>
-                <div class="air-quality-container" id="airQualityContainer">
-                  <div class="laoding spinner">
-                    <i class="fas fa-spinner fa-spin"></i>
-                    <p>Loading air quality data...</p>
-                  </div>
-                </div>
-              </section>
+          <!-- Air Quality -->
+          <section class="air-quality-section">
+            <h3>Air Quality Index</h3>
+            <div class="air-quality-container" id="airQualityContainer">
+              <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading air quality data...</p>
+              </div>
+            </div>
+          </section>
 
-              <!-- Favorites -->
-              <section class="favorites-section">
-                <h3>Favorite Location</h3>
-                <div class="favorites-container" id="favoritesContainer">
-                  <p class="no-favorites" id="noFavorites">
-                    No favorite locations yet. Add some by clicking the heart
-                    icon!
-                  </p>
-                </div>
-              </section>
+          <!-- Favorites -->
+          <section class="favorites-section">
+            <h3>Favorite Locations</h3>
+            <div class="favorites-container" id="favoritesContainer">
+              <p class="no-favorites" id="noFavorites">
+                No favorite locations yet. Add some by clicking the heart icon!
+              </p>
             </div>
           </section>
         </div>
-        <!-- penutup kontainer -->
+        <!-- div akhiran container -->
       </main>
-      <!-- penutup main -->
-    </div>
+      <!-- main akhiran -->
+
     <script src="script.js"></script>
   </body>
 </html>

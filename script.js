@@ -1,33 +1,33 @@
-// Weather Dashboard Javascript
-// Konfigurasi API
-const API_KEY = "e30e59a46cf9deea7e7b82eca3c209dd";
+// Weather Dashboard JavaScript
+// API Configuration
+const API_KEY = "e30e59a46cf9deea7e7b82eca3c209dd"; // Ganti dengan API key kamu dari openweathermap.org
 const BASE_URL = "https://api.openweathermap.org/data/2.5";
-const GEO_URL = "http://api.openweathermap.org/geo/1.0";
+const GEO_URL = "https://api.openweathermap.org/geo/1.0";
 
-// State Management (Data sementara di browser)
+// State Management
 let currentUnit = "metric";
 let currentCity = null;
 let favorites = JSON.parse(localStorage.getItem("weatherFavorites")) || [];
 let recentSearches = JSON.parse(localStorage.getItem("recentSearches")) || [];
 
-//DOM Elements (ambil dari HTML)
+// DOM Elements
 const searchInput = document.getElementById("searchInput");
 const searchBtn = document.getElementById("searchBtn");
 const locationBtn = document.getElementById("locationBtn");
 const themeToggle = document.getElementById("themeToggle");
-const unitBtns = document.getElementById(".unit-btn");
+const unitBtns = document.querySelectorAll(".unit-btn");
 const loadingSpinner = document.getElementById("loadingSpinner");
 const weatherContent = document.getElementById("weatherContent");
 const favoriteBtn = document.getElementById("favoriteBtn");
 
-// Initialize App (Ketika Konten Dimuat)
+// Initialize App
 document.addEventListener("DOMContentLoaded", () => {
   initializeTheme();
   initializeEventListeners();
   loadRecentSearches();
   loadFavorites();
 
-  //Default Load: Jakarta
+  // Load default city (Jakarta)
   fetchWeatherByCity("Jakarta");
 });
 
@@ -51,7 +51,7 @@ function updateThemeIcon(theme) {
   icon.className = theme === "light" ? "fas fa-moon" : "fas fa-sun";
 }
 
-// Event Listeners (aksi user)
+// Event Listeners
 function initializeEventListeners() {
   searchBtn.addEventListener("click", handleSearch);
   searchInput.addEventListener("keypress", (e) => {
@@ -129,7 +129,7 @@ function getCurrentLocation() {
       }
     );
   } else {
-    alert("Geolocation is not supported by your browser");
+    alert("Geolocation is not supported by your browser.");
   }
 }
 
@@ -154,8 +154,8 @@ async function fetchWeatherByCity(city) {
 
     await fetchWeatherByCoords(lat, lon, name, country);
   } catch (error) {
-    console.error("Error fetching weather", error);
-    alert("City not found, Please try again");
+    console.error("Error fetching weather:", error);
+    alert("City not found. Please try again.");
     loadingSpinner.style.display = "none";
   }
 }
@@ -167,19 +167,19 @@ async function fetchWeatherByCoords(
   countryName = null
 ) {
   try {
-    // Fetch current Weather (API Cuaca saat ini)
+    // Fetch current weather
     const currentResponse = await fetch(
-      `${BASE_URL}/weather?lat=${lat}&lon=${lon}&units${currentUnit}&appid=${API_KEY}`
+      `${BASE_URL}/weather?lat=${lat}&lon=${lon}&units=${currentUnit}&appid=${API_KEY}`
     );
     const currentData = await currentResponse.json();
 
-    //Fetch Forecast
+    // Fetch forecast
     const forecastResponse = await fetch(
       `${BASE_URL}/forecast?lat=${lat}&lon=${lon}&units=${currentUnit}&appid=${API_KEY}`
     );
     const forecastData = await forecastResponse.json();
 
-    //Fetch Air Quality
+    // Fetch air quality
     const airQualityResponse = await fetch(
       `${BASE_URL}/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`
     );
@@ -197,8 +197,8 @@ async function fetchWeatherByCoords(
     loadingSpinner.style.display = "none";
     weatherContent.style.display = "block";
   } catch (error) {
-    console.error("Enter fetching weather data:", error);
-    alert("Error loading weather data. Please try again");
+    console.error("Error fetching weather data:", error);
+    alert("Error loading weather data. Please try again.");
     loadingSpinner.style.display = "none";
   }
 }
@@ -306,7 +306,7 @@ function displayDailyForecast(data) {
     dailyData[date].temps.push(item.main.temp);
   });
 
-  // Display 5 days (Ramalah 5 Hari Kedepan)
+  // Display 5 days
   Object.values(dailyData)
     .slice(0, 5)
     .forEach((day) => {
